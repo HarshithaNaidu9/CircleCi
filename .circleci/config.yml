@@ -40,6 +40,10 @@ jobs:
       - run:
           name: Deploy to EC2
           command: |
+            if [ -z "$EC2_IP" ]; then
+              echo "EC2_IP environment variable is not set. Skipping deployment."
+              exit 0
+            fi
             ssh -o StrictHostKeyChecking=no ec2-user@$EC2_IP "
               if [ ! -d /home/ec2-user/blog-app ]; then
                 git clone https://github.com/MaheshKumarBisai/Blog-app.git /home/ec2-user/blog-app
